@@ -18,7 +18,11 @@ export class SignUpComponent implements OnInit {
       firstname:['', Validators.required],
       secondname:['', Validators.required],
       dob: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', {
+        validators: [Validators.required, Validators.email],
+        updateOn: "blur"
+      }
+        ],
       password:['', [Validators.required, Validators.minLength(6)]],
       confirm:['', Validators.required]
 

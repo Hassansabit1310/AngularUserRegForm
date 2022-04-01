@@ -7,6 +7,7 @@ body {
   font-family: Verdana, Geneva, sans-serif;
   font-size: 14px;
   background: #f2f2f2;
+  box-sizing: border-box;
 }
 .clearfix:after {
   content: "";
@@ -68,6 +69,7 @@ body {
   float: left;
 }
 .form_wrapper .input_field {
+  padding: 0.5rem;
   position: relative;
   margin-bottom: 20px;
   -webkit-animation: bounce 0.6s ease-out;
@@ -82,11 +84,11 @@ body {
   height: 80%;
   border-right: 1px solid #ccc;
   text-align: center;
-  width: 30px;
+  /* width: 30px; */
   justify-content: center;
 }
 .form_wrapper .input_field > span > i {
-  padding-top: 100px;
+  /* padding-top: 100px; */
 }
 .form_wrapper .textarea_field > span > i {
   padding-top: 100px;
