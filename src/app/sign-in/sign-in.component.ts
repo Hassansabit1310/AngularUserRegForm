@@ -40,7 +40,7 @@ export class SignInComponent implements OnInit {
 
     });
     
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+   
   }
   get f():{ [key: string]: AbstractControl; } { return this.signinForm.controls; }
   
@@ -59,7 +59,7 @@ export class SignInComponent implements OnInit {
     .subscribe(
       {
         next:(d)=>{
-          this.router.navigate([this.returnUrl]);
+          this.router.navigate(['/']);
 
         },
         error:(error)=>{
