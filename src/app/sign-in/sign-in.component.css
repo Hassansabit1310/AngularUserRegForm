@@ -73,11 +73,13 @@ body {
     display: flex;
     position: absolute;
     left: 0;
+    top: 0;
+    bottom: 45px;
     color: lightgrey;
     height: 80%;
+    padding: 5px;
     border-right: 1px solid #ccc;
     text-align: center;
-    padding: 5px;
     justify-content: center;
     align-items: center;
   }
@@ -400,4 +402,3 @@ body {
     color: red;
     top: 35px;
   }
-  

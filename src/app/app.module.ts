@@ -11,12 +11,29 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon'
+import {MatIconModule} from '@angular/material/icon';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { AppRoutingModule } from './app-routing.module';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
+import { AlertComponent } from './alert/alert.component';
+import { AlertService } from './services/alert.service';
+import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorInterceptor } from './services/error.interceptor';
+import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { fakeBackendProvider } from './helpers/fake-backend';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpComponent
+    SignUpComponent,
+    SignInComponent,
+    ToolbarComponent,
+    AlertComponent,
+    HomeComponent
+  
   ],
   imports: [
     MatSliderModule,
@@ -28,9 +45,17 @@ import {MatIconModule} from '@angular/material/icon'
     MatNativeDateModule,
     MatGridListModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    AppRoutingModule,
+    MatToolbarModule,
+    MatMenuModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
