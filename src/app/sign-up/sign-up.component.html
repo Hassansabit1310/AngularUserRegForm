@@ -1,34 +1,74 @@
-<form  >
-
-  <div class="form_wrapper">
+<app-toolbar></app-toolbar>
+<div class="form_wrapper">
     <div class="form_container">
       <div class="title_container">
         <h2>User Registration Form</h2>
+        <div>
+          <alert></alert>
+        </div>
+        
       </div>
       <div class="row clearfix">
         <div class="">
           <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
-            <div class="" [ngClass]="{ 'is-invalid': f.email.errors?.required||f.email.errors?.email}"> 
-              <div style="display: flex; justify-items: start; align-items: center; " class="input_field">
-                <span style="background-color: #f1f5f9; color:#64748b; display: flex; align-items: center;">
-                  <mat-icon> contact_mail</mat-icon>
-                </span>
-                <input type="email" formControlName="email"  placeholder="Email" required />
+            <div class="row clearfix">
+              <div class="col_half">
+                <div class="input_field"  [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }">
+                  <div class="input_field" >
+                    <span><mat-icon>account_box</mat-icon></span>
+                    <input formControlName="firstname" type="text" name="name" placeholder="First Name" />
+                  </div>
+                  <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                    <div *ngIf="f.firstname.errors.required">First Name is required</div>
+                </div>
+                </div>
               </div>
-              <div *ngIf="myForm.touched" class="invalid-feedback">
-                <div *ngIf="f.email.errors?.required">Email is required</div>
-                <div *ngIf="f.email.errors?.email">Email must be a valid email address</div>
+              
+              <div class="col_half">
+                <div class="input_field"  [ngClass]="{ 'is-invalid': submitted && f.secondname.errors }"> 
+                  <div class="input_field">
+                    <span><mat-icon>account_box</mat-icon></span>
+                  <input formControlName="secondname" type="text" name="name" placeholder="Last Name" required />
+
+                  </div>
+                  <div *ngIf="submitted && f.secondname.errors" class="invalid-feedback">
+                    <div *ngIf="f.secondname.errors.required">Last Name is required</div>
+                </div>
+                </div>
               </div>
             </div>
-            <div class="input_field"> <span><mat-icon>lock</mat-icon></span>
+              
+
+
+
+
+            <div class="input_field" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"> 
+              <div class="input_field">
+                <span><mat-icon> contact_mail</mat-icon></span>
+              <input  type="email" formControlName="email"  placeholder="Email" required />
+
+              </div>
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+            </div>
+           
+            <div class="input_field" > 
+              <div class="input_field">
+                <span><mat-icon>lock</mat-icon></span>
               <input [ngClass]="{ 'is-invalid': submitted && f.password.errors }" formControlName="password" type="password" placeholder="Password" required />
+              </div>
               <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                 <div *ngIf="f.password.errors.required">Password is required</div>
                 <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
             </div>
             </div>
-            <div class="input_field"> <span><mat-icon>lock</mat-icon></span>
-              <input formControlName="confirm" type="password" name="password" placeholder="Re-type Password" [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }" required />
+            <div class="input_field">
+              <div  class="input_field">
+                <span><mat-icon>lock</mat-icon></span>
+                <input formControlName="confirm" type="password" name="password" placeholder="Re-type Password" [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }" required />
+              </div>
               <div *ngIf="submitted && f.confirm.errors" class="invalid-feedback">
                 <div *ngIf="f.confirm.errors.required">Confirm Password is required</div>
                 <div *ngIf="f.confirm.errors.mustMatch">Passwords must match</div>
@@ -37,28 +77,10 @@
             <div class="input_field"> 
               <input formControlName="dob" type="date" name="dob" placeholder="Date of birth" required />
             </div>
-            <div class="row clearfix">
-              <div class="col_half">
-                <div class="input_field" [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                  <input formControlName="firstname" type="text" name="name" placeholder="First Name" />
-                  <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
-                    <div *ngIf="f.firstname.errors.required">First Name is required</div>
-                </div>
-                </div>
-              </div>
-              <div class="col_half">
-                <div class="input_field" [ngClass]="{ 'is-invalid': submitted && f.secondname.errors }"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
-                  <input formControlName="secondname" type="text" name="name" placeholder="Last Name" required />
-                  <div *ngIf="submitted && f.secondname.errors" class="invalid-feedback">
-                    <div *ngIf="f.secondname.errors.required">Last Name is required</div>
-                </div>
-                </div>
-              </div>
-            </div>
-              
+           
                
               
-            <button class="button" type="submit">send</button>
+            <button mat-raised-button color="primary" type="submit">Send</button>
           </form>
         </div>
       </div>
@@ -66,4 +88,3 @@
   </div>
 
 
-</form>
