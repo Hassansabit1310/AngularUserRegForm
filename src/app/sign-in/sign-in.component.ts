@@ -1,46 +1,48 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup,Validators} from '@angular/forms';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from '../services/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { first } from 'rxjs/operators';
+import { User } from '../sign-up/shared/user.model';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent implements OnInit {
-
+export class SignInComponent implements OnInit, OnDestroy {
+  currentUserSubscription:Subscription;
   signinForm: FormGroup;
   submitted = false;
   loading = false;
-    returnUrl: string;
+  returnUrl: string;
 
-  constructor( private fb: FormBuilder,
-    private route: ActivatedRoute,
+
+  constructor( 
+    private fb: FormBuilder,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private alertService: AlertService) 
-    {
-      if (this.authenticationService.currentUserValue) {
-        this.router.navigate(['/']);
+    private alertService: AlertService) {
+      this.signinForm = this.fb.group({     
+        email: ['', [Validators.required]],
+        password:['', [Validators.required]],
+      });
     }
-    }
+
 
 
   ngOnInit() {
-    this.signinForm = this.fb.group({
-      
-      email: ['', [Validators.required]],
-      password:['', [Validators.required]],
-     
+    this.currentUserSubscription = this.authenticationService.currentUserValue.subscribe((res:User)=>{
+      console.log(res)
+      if (res && Object.keys(res).length) {
+        
+        this.router.navigate(['/']);
+      }else{
 
-
-
+      }
     });
-    
-   
   }
   get f():{ [key: string]: AbstractControl; } { return this.signinForm.controls; }
   
@@ -59,8 +61,8 @@ export class SignInComponent implements OnInit {
     .subscribe(
       {
         next:(d)=>{
+          console.log(d);
           this.router.navigate(['/']);
-
         },
         error:(error)=>{
 
@@ -72,6 +74,10 @@ export class SignInComponent implements OnInit {
        );
 
     alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.signinForm.value, null, 4));
+  }
+
+  ngOnDestroy(): void {
+   this.currentUserSubscription.unsubscribe(); 
   }
 
 }

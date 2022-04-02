@@ -18,10 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import { AlertComponent } from './alert/alert.component';
-import { AlertService } from './services/alert.service';
 import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ErrorInterceptor } from './services/error.interceptor';
-import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { fakeBackendProvider } from './helpers/fake-backend';
 import { HomeComponent } from './home/home.component';
 
@@ -52,8 +49,8 @@ import { HomeComponent } from './home/home.component';
     HttpClientModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     fakeBackendProvider
   ],
   bootstrap: [AppComponent]

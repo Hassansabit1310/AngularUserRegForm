@@ -4,7 +4,7 @@
         <mat-menu #menu="matMenu"  >
             <ng-template #toolbar>
                 <button mat-menu-item routerLink="/signup"><mat-icon>person_add</mat-icon>Sign Up</button>
-          <button mat-menu-item routerLink="/login"><mat-icon>login</mat-icon>Sign In</button>
+                <button mat-menu-item routerLink="/login"><mat-icon>login</mat-icon>Sign In</button>
             </ng-template>
           
           <button mat-menu-item *ngIf="currentUser?.lastName else toolbar"><mat-icon>account_circle</mat-icon>{{currentUser.lastName}}</button>

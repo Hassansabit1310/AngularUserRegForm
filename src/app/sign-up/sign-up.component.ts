@@ -6,6 +6,8 @@ import { AlertService } from '../services/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { first } from 'rxjs';
 import { UserService } from '../services/user.service';
+import { User } from './shared/user.model';
+import { sub } from 'date-fns';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -17,6 +19,10 @@ export class SignUpComponent implements OnInit {
   submitted = false;
   loading=false;
   returnUrl:string;
+  currentUser:User;
+  validAge:number = 18;
+  currentDate:Date = new Date();
+  maxValidDOB:Date = sub(this.currentDate, {years:this.validAge});
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -24,59 +30,88 @@ export class SignUpComponent implements OnInit {
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
         private userService:UserService
-    ) {
-      if (this.authenticationService.currentUserValue) {
-        this.router.navigate(['/']);
-    }
-    }
+    ) { }
 
   ngOnInit() {
+    this.currentUser = this.authenticationService.currentUser;
     this.myForm = this.fb.group({
-      firstname:this.fb.control('', {validators:[Validators.required],updateOn: 'change'}),
-      secondname:['', Validators.required],
+      firstName:['', {
+        validators:[
+          Validators.required
+        ],
+        updateOn: 'change'
+      }],
+      lastName:['', Validators.required],
       dob: ['', Validators.required],
+      phone: ["", 
+        [
+          Validators.required,
+          Validators.maxLength(11),
+          Validators.pattern("^(01)[0-9]{9}$")
+        ] 
+      ],
       email: ['', {
         validators: [Validators.required,Validators.email],
         updateOn: 'change'
       }],
-      password:['', [Validators.required, Validators.minLength(6)]],
-      confirm:['', Validators.required]
-
-
-
+      password:['', [
+        Validators.required, 
+        Validators.minLength(6)
+      ]],
+      confirmPassword:['', Validators.required]
     },
     {
-      validator: MustMatch('password', 'confirm')
-  });
+      validators: [ MustMatch('password', 'confirm')]
+    });
   }
-  get f():{ [key: string]: AbstractControl; } { return this.myForm.controls; }
+  get firstName() {
+    return this.myForm.get("firstName"); 
+  }
+  get lastName() {
+    return this.myForm.get("lastName"); 
+  }
+  get dob() {
+    return this.myForm.get("dob"); 
+  }
+  get email() {
+    return this.myForm.get("email"); 
+  }
+  get phone() {
+    return this.myForm.get("phone"); 
+  }
+  get password() {
+    return this.myForm.get("password"); 
+  }
+  get confirmPassword() {
+    return this.myForm.get("confirmPassword"); 
+  }
+
+  get user():User{
+    let user:User =null;
+    user={
+      firstName: this.firstName.value.trim(),
+      lastName: this.lastName.value.trim(),
+      email: this.email.value.trim().toLowerCase(),
+      phone: this.phone.value.trim(),
+      dob: this.dob.value,
+      password: this.password.value,
+    }
+    return user;
+  }
   
   onSubmit(form: FormGroup) {
     this.submitted = true;
 
-    if (this.myForm.invalid) {
-        return;
+    if (this.myForm.valid) {
+      this.loading = true;
+      this.userService.registerUser(this.user).then((res)=>{
+        this.alertService.success('Registration successful', true);
+        this.router.navigate(['/login'])
+      }).catch((err)=>{
+        this.alertService.error(err);
+        this.loading = false;
+      })
     }
-
-    this.loading = true;
-        this.userService.register(this.myForm.value)
-            .pipe(first())
-            .subscribe(
-              {
-                next: (data)=>{
-                  this.alertService.success('Registration successful', true);
-                
-                  console.log(data)
-                },
-                error:(e)=>{
-                  this.alertService.error(e);
-                    this.loading = false;
-                }
-              }
-              
-              );
-
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.myForm.value, null, 4));
   }
 
 }

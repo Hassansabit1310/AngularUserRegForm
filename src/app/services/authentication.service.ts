@@ -8,15 +8,14 @@ import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-    private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
+    
+    public currentUser:User = <User>JSON.parse(localStorage.getItem('currentUser'));
+    private currentUserSubject$: BehaviorSubject<User> = new BehaviorSubject<User>(this.currentUser);
 
-    constructor(private http: HttpClient) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-        this.currentUser = this.currentUserSubject.asObservable();
-    }
-    public get currentUserValue(): User {
-        return this.currentUserSubject.value;
+    constructor(private http: HttpClient) {}
+
+    public get currentUserValue(): Observable<User> {
+        return this.currentUserSubject$.asObservable();
     }
 
     login(email:string, password:string) {
@@ -24,7 +23,7 @@ export class AuthenticationService {
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
+                this.currentUserSubject$.next(user);
                 return user;
             }));
     }
@@ -32,6 +31,6 @@ export class AuthenticationService {
     logout() {
         // remove user from local storage and set current user to null
         localStorage.removeItem('currentUser');
-        this.currentUserSubject.next(null);
+        this.currentUserSubject$.next(null);
     }
 }
