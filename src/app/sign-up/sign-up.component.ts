@@ -23,6 +23,7 @@ export class SignUpComponent implements OnInit {
   validAge:number = 18;
   currentDate:Date = new Date();
   maxValidDOB:Date = sub(this.currentDate, {years:this.validAge});
+  nameFieldActive:boolean = false;
 
   constructor(private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -61,7 +62,7 @@ export class SignUpComponent implements OnInit {
       confirmPassword:['', Validators.required]
     },
     {
-      validators: [ MustMatch('password', 'confirm')]
+      validators: [ MustMatch('confirmPassword', 'password')]
     });
   }
   get firstName() {
@@ -98,18 +99,21 @@ export class SignUpComponent implements OnInit {
     }
     return user;
   }
+
+  enableNameFieldError(){
+    this.nameFieldActive = true;
+  }
   
-  onSubmit(form: FormGroup) {
+  onSubmit():void {
     this.submitted = true;
 
     if (this.myForm.valid) {
-      this.loading = true;
-      this.userService.registerUser(this.user).then((res)=>{
+      this.userService.registerUser(this.user).then((res:"success")=>{
         this.alertService.success('Registration successful', true);
         this.router.navigate(['/login'])
       }).catch((err)=>{
-        this.alertService.error(err);
-        this.loading = false;
+        const errorMessage:string = "User already exists!" 
+        this.alertService.error(errorMessage);
       })
     }
   }
