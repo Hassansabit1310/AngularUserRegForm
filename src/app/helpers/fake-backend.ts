@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
+import { User } from '../sign-up/shared/user.model';
+import { BehaviorSubject } from 'rxjs';
 
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+     public currentUser:User = <User>JSON.parse(localStorage.getItem('currentUser'));
+    private currentUserSubject$: BehaviorSubject<User> = new BehaviorSubject<User>(this.currentUser);
+   
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
 
@@ -35,6 +40,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         // route functions
+        
 
         function authenticate() {
             const { email, password } = body;
@@ -64,7 +70,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function getUsers() {
-            if (!isLoggedIn()) return unauthorized();
+            
             return ok(users);
         }
 

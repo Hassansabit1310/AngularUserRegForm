@@ -2,14 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../sign-up/shared/user.model';
 import { environment } from 'src/environments/environment';
+import { BehaviorSubject,Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+    public users:User = <User>JSON.parse(localStorage.getItem('users'));
+    private currentUserSubject$: BehaviorSubject<User> = new BehaviorSubject<User>(this.users);
     public loggedUser:User=null;
     constructor(private http: HttpClient) { }
+   
+    public get getUsers(): Observable<User> {
+        return this.currentUserSubject$.asObservable();
+    }
 
     getAll() {
-        return this.http.get<User[]>(`${environment.apiUrl}/users`);
+        return this.http.get<User[]>(`/users`);
     }
 
     register(user: User) {

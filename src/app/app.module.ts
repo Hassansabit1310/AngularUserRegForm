@@ -21,6 +21,7 @@ import { AlertComponent } from './alert/alert.component';
 import { HttpClientModule,HTTP_INTERCEPTORS } from '@angular/common/http';
 import { fakeBackendProvider } from './helpers/fake-backend';
 import { HomeComponent } from './home/home.component';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { HomeComponent } from './home/home.component';
     AppRoutingModule,
     MatToolbarModule,
     MatMenuModule,
-    HttpClientModule
+    HttpClientModule,
+    MatTableModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

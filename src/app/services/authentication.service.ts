@@ -11,6 +11,7 @@ export class AuthenticationService {
     
     public currentUser:User = <User>JSON.parse(localStorage.getItem('currentUser'));
     private currentUserSubject$: BehaviorSubject<User> = new BehaviorSubject<User>(this.currentUser);
+    
 
     constructor(private http: HttpClient) {}
 
