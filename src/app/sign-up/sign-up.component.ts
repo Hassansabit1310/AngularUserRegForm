@@ -8,6 +8,7 @@ import { first } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { User } from './shared/user.model';
 import { sub } from 'date-fns';
+import { v4 as uuidv4 } from 'uuid';
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
@@ -36,12 +37,7 @@ export class SignUpComponent implements OnInit {
   ngOnInit() {
     this.currentUser = this.authenticationService.currentUser;
     this.myForm = this.fb.group({
-      firstName:['', {
-        validators:[
-          Validators.required
-        ],
-        updateOn: 'change'
-      }],
+      firstName:['', Validators.required],
       lastName:['', Validators.required],
       dob: ['', Validators.required],
       phone: ["", 
@@ -90,12 +86,15 @@ export class SignUpComponent implements OnInit {
   get user():User{
     let user:User =null;
     user={
+      id:uuidv4(),
       firstName: this.firstName.value.trim(),
       lastName: this.lastName.value.trim(),
       email: this.email.value.trim().toLowerCase(),
       phone: this.phone.value.trim(),
       dob: this.dob.value,
       password: this.password.value,
+      status:'pending',
+      role:''
     }
     return user;
   }
@@ -106,6 +105,8 @@ export class SignUpComponent implements OnInit {
   
   onSubmit():void {
     this.submitted = true;
+    console.log("ok");
+    
 
     if (this.myForm.valid) {
       this.userService.registerUser(this.user).then((res:"success")=>{

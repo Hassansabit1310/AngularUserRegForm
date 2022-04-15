@@ -35,7 +35,7 @@ export class SignInComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.currentUserSubscription = this.authenticationService.currentUserValue.subscribe((res:User)=>{
-      console.log(res)
+     
       if (res && Object.keys(res).length) {
         
         this.router.navigate(['/']);
@@ -61,8 +61,10 @@ export class SignInComponent implements OnInit, OnDestroy {
     .subscribe(
       {
         next:(d)=>{
-          console.log(d);
+          
           this.router.navigate(['/']);
+          console.log("login");
+          
         },
         error:(error)=>{
 

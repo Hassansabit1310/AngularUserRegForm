@@ -4,6 +4,7 @@ import { AuthGuard } from './helpers/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { UpdateUsersComponent } from './update-users/update-users.component';
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [AuthGuard],
     pathMatch:"full" 
-  }
+  },
+  { path: 'update/:id', component: UpdateUsersComponent }
 ];
 
 @NgModule({

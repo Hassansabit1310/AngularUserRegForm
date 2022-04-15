@@ -1,4 +1,5 @@
 export interface User {
+    id:string;
     firstName:string;
     lastName:string;
     dob:string;
@@ -6,5 +7,7 @@ export interface User {
     email:string;
     password:string;
     token?:string;
+    status:string;
+    role:string;
 
 }
