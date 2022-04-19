@@ -8,6 +8,6 @@ export interface User {
     password:string;
     token?:string;
     status:string;
-    role:string;
+    roles:string;
 
 }

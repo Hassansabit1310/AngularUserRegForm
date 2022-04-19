@@ -1,0 +1,44 @@
+.example-container {
+    height: 91%;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+  }
+  
+  .example-sidenav-content {
+    /* display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center; */
+    
+  }
+  
+  .example-sidenav {
+    padding: 20px;
+  }
+  .postcard{
+      position: absolute;
+      left: 200px;
+     width: 50%;
+     
+    
+  }
+
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+   
+    
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
+  .example-card {
+      top: 10px;
+   
+     
+      
+      box-shadow: 5px 10px #888888;
+    
+   
+   
+  }

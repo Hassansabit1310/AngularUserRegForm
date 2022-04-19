@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './helpers/auth.guard';
 import { HomeComponent } from './home/home.component';
+import { PostsComponent } from './posts/posts.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { UpdateUsersComponent } from './update-users/update-users.component';
@@ -17,7 +18,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     pathMatch:"full" 
   },
-  { path: 'update/:id', component: UpdateUsersComponent }
+  { path: 'update/:id', component: UpdateUsersComponent },
+  { path: 'posts', component: PostsComponent}
 ];
 
 @NgModule({

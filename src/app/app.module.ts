@@ -24,6 +24,10 @@ import { HomeComponent } from './home/home.component';
 import {MatTableModule} from '@angular/material/table';
 import { UpdateUsersComponent } from './update-users/update-users.component';
 import {MatSelectModule} from '@angular/material/select';
+import { PostsComponent } from './posts/posts.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatCardModule} from '@angular/material/card';
+import { GetpostsComponent } from './getposts/getposts.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,9 @@ import {MatSelectModule} from '@angular/material/select';
     ToolbarComponent,
     AlertComponent,
     HomeComponent,
-    UpdateUsersComponent
+    UpdateUsersComponent,
+    PostsComponent,
+    GetpostsComponent
   
   ],
   imports: [
@@ -52,7 +58,9 @@ import {MatSelectModule} from '@angular/material/select';
     MatMenuModule,
     HttpClientModule,
     MatTableModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSidenavModule,
+    MatCardModule
   ],
   providers: [
     // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -94,10 +94,12 @@ export class SignUpComponent implements OnInit {
       dob: this.dob.value,
       password: this.password.value,
       status:'pending',
-      role:''
+      roles:'user'
     }
     return user;
   }
+
+  
 
   enableNameFieldError(){
     this.nameFieldActive = true;

@@ -31,6 +31,17 @@ export class UpdateUsersComponent implements OnInit {
       value:"disable"
     }
   ]
+  roles=[
+    {
+      viewValue:"Admin",
+      value:"admin"
+    },
+    {
+      viewValue:"User",
+      value:"user"
+    }
+    
+  ]
 
     constructor(
         private formBuilder: FormBuilder,
@@ -61,6 +72,8 @@ export class UpdateUsersComponent implements OnInit {
             lastName: [this.selectedUser.lastName??"not found", Validators.required],
             email: [this.selectedUser.email??"not found", Validators.required],
             status: [this.selectedUser.status?this.selectedUser.status:"pending", Validators.required],
+            roles: [this.selectedUser.roles?this.selectedUser.roles:"user", Validators.required],
+
 
         });
 

@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, JsonpClientBackend } from '@angular/common/http';
 import { User } from '../sign-up/shared/user.model';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject,Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Post } from '../posts/posts.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+    public posts:Post[]=<Post[]>JSON.parse(localStorage.getItem('posts'))
     public users:User[] = <User[]>JSON.parse(localStorage.getItem('users'));
     public currentUsers:User = <User>JSON.parse(localStorage.getItem('currentUser'));
     private currentUserSubject$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>(this.users);
     private loggedUserSubject$: BehaviorSubject<User> = new BehaviorSubject<User>(this.currentUsers);
+    private postedtatus$:BehaviorSubject<Post[]> =new BehaviorSubject<Post[]>(this.posts) 
     public loggedUser:User=null;
     private userSubject: BehaviorSubject<User>;
     constructor(private http: HttpClient) { }
@@ -22,6 +25,9 @@ export class UserService {
         return this.loggedUserSubject$.asObservable()
     }
     
+    public get getPosts():Observable<Post[]>{
+        return this.postedtatus$.asObservable()
+    }
 
     getById(id: string) {
         return this.http.get<User>(`${environment.apiUrl}/users/${id}`);
@@ -42,6 +48,13 @@ export class UserService {
         return this.http.post(`${environment.apiUrl}/users/register`, {currentUser:user });
     }
     
+    postStatus(post:Post){
+        let posts:Post[]=this.getLocalStorage("posts")??[]
+
+        posts.push(post)
+        this.setLocalStorage("posts",posts)
+
+    }
     registerUser(user: User):Promise<"success"|"user-exists"> {
         let users:User[] = this.getLocalStorage("users")??[];
         const userEmail = user.email;

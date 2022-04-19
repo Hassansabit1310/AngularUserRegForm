@@ -22,6 +22,15 @@ export class HomeComponent implements OnInit {
 
   constructor( private userService: UserService,
     private router: Router) {
+
+      this.userService.getCurrentUsers.subscribe(
+        (data:User)=>{
+          this.currenUsers=data
+          console.log(data);
+          
+        }
+      )
+  
    
         
       
@@ -48,14 +57,7 @@ export class HomeComponent implements OnInit {
       
         })
 
-        this.userService.getCurrentUsers.subscribe(
-          (data:User)=>{
-            this.currenUsers=data
-            console.log(data);
-            
-          }
-        )
-    
+      
     
   }
   

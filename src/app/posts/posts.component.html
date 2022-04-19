@@ -1,0 +1,39 @@
+<mat-drawer-container class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+      <p>Auto-resizing sidenav</p>
+      <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+      <button (click)="showFiller = !showFiller" mat-raised-button>
+        Toggle extra text
+      </button>
+    </mat-drawer>
+  
+    <div class="example-sidenav-content">
+      
+      <mat-icon (click)="drawer.toggle()">menu</mat-icon>
+      <mat-card class="postcard">
+        
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="example-form">
+         
+            <mat-form-field   class="example-full-width" appearance="fill">
+                <mat-label>Leave a comment</mat-label>
+                <textarea formControlName="description" matInput placeholder="Ex. It makes me feel..."></textarea>
+              </mat-form-field>
+              <button type="button" mat-raised-button (click)="onFileSelected()">Choose File</button>
+              <input formControlName="img" hidden  #fileInput type="file" id="file">
+              <button mat-raised-button color="primary">Primary</button>
+         
+
+          
+          
+            
+          </form>
+         
+      
+          <app-getposts></app-getposts>
+        
+         
+      </mat-card>
+      
+    </div>
+  
+  </mat-drawer-container>
